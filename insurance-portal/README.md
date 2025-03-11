@@ -1,40 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+<!-- Setup Instructions -->
 
-## Getting Started
+1.Clone the repository
+2.Install the dependencies(npm install)
+3.Start the development server(npm run dev)
+4.Open the application
 
-First, run the development server:
+<!-- API Usage Details -->
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Form Configuration API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Description: The API provides a JSON structure that defines the form fields, their types, validation rules, and dynamic behavior (e.g., visibility conditions, dynamic options).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+2. Field Types and Properties
+   The API supports the following field types and properties:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<!-- Supported Field Types: -->
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+text: A text input field.
+date: A date picker field.
+number: A numeric input field.
+select: A dropdown field with predefined options.
+radio: A radio button group.
+checkbox: A checkbox group.
+group: A group of fields (nested fields).
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<!-- Common Field Properties: -->
 
-## Learn More
+id: A unique identifier for the field.
+label: The display label for the field.
+type: The type of the field (e.g., text, select, radio).
+required: Whether the field is required (true or false).
+options: A list of options for select, radio, or checkbox fields.
+validation: Validation rules for the field (e.g., min, max, pattern).
+visibility: Conditions to control the visibility of the field.
+dynamicOptions: Fetches options dynamically based on another field's value.
 
-To learn more about Next.js, take a look at the following resources:
+3.Dynamic Behavior
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+The API supports dynamic behavior for fields, such as:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Dynamic Options: Fetch options for a select field based on the value of another field.
+Visibility Conditions: Show or hide fields based on the value of another field.
 
-## Deploy on Vercel
+4.Usage in the Project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The form configuration is fetched from the API and dynamically rendered in the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Each field type is mapped to a corresponding UI component (e.g., text → <TextField />, select → <Select />).
+
+Dynamic behavior (e.g., visibility, dynamic options) is handled using React state and effects.
+
+<!-- Dependencies: -->
+
+The project uses Material-UI for styling and components.
+The @mui/icons-material package is used for icons.
+
+<!-- Assumptions -->
+
+The following assumptions were made during the implementation of the form:
+
+1.Dynamic Options:
+
+The dynamicOptions property assumes that the API endpoint (/api/getStates) returns a list of options in the format
+
+2.Visibility Conditions:
+
+The visibility property assumes that the condition is evaluated based on the value of the dependsOn field.
+
+3.Validation:
+
+Validation rules (e.g., min, max, pattern) are enforced on the client side using form validation libraries or custom logic.
+
+4.Field Types:
+
+All field types (text, date, number, select, radio, checkbox, group) are supported and mapped to appropriate UI components.
+
+5.API Response:
+
+The API response is static and does not change during the lifecycle of the form. If the form configuration changes, the page must be reloaded.
+
+Example Form Configurations
+
+<!-- Health Insurance Application -->
+
+{
+"formId": "health_insurance_application",
+"title": "Health Insurance Application",
+"fields": [
+{
+"id": "personal_info",
+"label": "Personal Information",
+"type": "group",
+"fields": [
+{
+"id": "first_name",
+"label": "First Name",
+"type": "text",
+"required": true
+},
+{
+"id": "last_name",
+"label": "Last Name",
+"type": "text",
+"required": true
+},
+{
+"id": "dob",
+"label": "Date of Birth",
+"type": "date",
+"required": true
+}
+]
+}
+]
+}
+
+<!-- Home Insurance Application -->
+
+{
+"formId": "home_insurance_application",
+"title": "Home Insurance Application",
+"fields": [
+{
+"id": "home_owner",
+"label": "Are you the homeowner?",
+"type": "radio",
+"options": [
+"Yes",
+"No"
+],
+"required": true
+}
+]
+}
+
+<!-- Car Insurance Application -->
+
+{
+"formId": "car_insurance_application",
+"title": "Car Insurance Application",
+"fields": [
+{
+"id": "car_owner",
+"label": "Are you the primary car owner?",
+"type": "radio",
+"options": [
+"Yes",
+"No"
+],
+"required": true
+}
+]
+}
