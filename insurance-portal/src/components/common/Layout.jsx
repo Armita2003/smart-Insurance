@@ -1,7 +1,9 @@
 import { useThemeContext } from "@/contexts/ThemeContext";
 import useResponsive from "@/hooks/useResponsive";
-import MenuIcon from "@mui/icons-material/Menu"; // Import the hamburger menu icon
-import { AppBar, Button, Drawer, IconButton, List, ListItem, Stack, Switch, Toolbar, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import NightlightIcon from "@mui/icons-material/Nightlight"; // Moon icon
+import WbSunnyIcon from "@mui/icons-material/WbSunny"; // Sun icon
+import { AppBar, Box, Button, Drawer, IconButton, List, ListItem, Stack, Switch, Toolbar, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,7 +12,7 @@ const Layout = ({ children }) => {
     const { darkMode, toggleDarkMode } = useThemeContext();
     const theme = useTheme();
     const isSmallScreen = useResponsive("down", "md");
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for sidebar drawer
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     // Open sidebar drawer
     const handleDrawerOpen = () => {
@@ -35,8 +37,33 @@ const Layout = ({ children }) => {
                             <Typography sx={{ fontSize: isSmallScreen ? 12 : 22 }}>Insurance Portal</Typography>
                         </Stack>
                         <Stack direction="row" alignItems="center">
-                            <Switch size={isSmallScreen ? "small" : "medium"} checked={darkMode} onChange={toggleDarkMode} color="primary" />
+                            {/* <Switch size={isSmallScreen ? "small" : "medium"} checked={darkMode} onChange={toggleDarkMode} color="primary" /> */}
+                            <Box display="flex" alignItems="center">
+                                {/* Sun icon (shown when darkMode is false) */}
+                                <WbSunnyIcon
+                                    sx={{
+                                        color: darkMode ? "text.secondary" : "warning.main",
+                                        marginRight: 1,
+                                        visibility: darkMode ? "hidden" : "visible",
+                                    }}
+                                />
+                                {/* {darkMode ? (
+                                    <NightlightIcon sx={{ color: "primary.main", marginRight: 1 }} />
+                                ) : (
+                                    <WbSunnyIcon sx={{ color: "warning.main", marginLeft: 1 }} />
+                                )} */}
+                                {/* Switch component */}
+                                <Switch size={isSmallScreen ? "small" : "medium"} checked={darkMode} onChange={toggleDarkMode} color="primary" />
 
+                                {/* Moon icon (shown when darkMode is true) */}
+                                <NightlightIcon
+                                    sx={{
+                                        color: darkMode ? "primary.main" : "text.secondary",
+                                        marginLeft: 1,
+                                        visibility: darkMode ? "visible" : "hidden",
+                                    }}
+                                />
+                            </Box>
                             {isSmallScreen && (
                                 <IconButton color="inherit" onClick={handleDrawerOpen}>
                                     <MenuIcon />
